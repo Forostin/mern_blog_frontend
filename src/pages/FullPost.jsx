@@ -40,8 +40,7 @@ if(isLoading){
       <Post
         id={data.id}
         title={data.title}
-        // title="Roast the code #1 | Rock Paper Scissors"
-        imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
+        imageUrl={`http://localhost:3002${data.imageUrl}`}
         user={data.user}
         // user={{
         //   avatarUrl:

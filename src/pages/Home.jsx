@@ -12,7 +12,8 @@ import { fetchPosts, fetchTags } from '../react/slices/posts';
 
 export const Home = () => {
   const dispatch = useDispatch();
-  const {posts, tags} = useSelector((state) => state.posts); 
+  const userData = useSelector((state)=>state.auth.data);
+  const {posts, tags} = useSelector((state)=>state.posts); 
 
   const isPostsLoading = posts.status === 'loading'
   const isTagsLoading = tags.status === 'loading'
@@ -25,7 +26,7 @@ export const Home = () => {
       console.log(tags)
       console.log(isTagsLoading)
   return (
-    <>
+    <><img ></img>
       <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
         <Tab label="Новые" />
         <Tab label="Популярные" />
@@ -36,12 +37,12 @@ export const Home = () => {
             isPostsLoading ? (
             <Post key={index} isLoading={true}   />
              ) : (
-            <Post
+            <Post 
               key={obj._id}
               id={obj._id}
               title={obj.title}
               // title="Roast the code #1 | Rock Paper Scissors"
-              imageUrl={obj.imageUrl}
+              imageUrl={obj.imageUrl ? `http://localhost:3002${obj.imageUrl}`: ''}
               // imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
               // user={{
               //   avatarUrl:
@@ -54,7 +55,7 @@ export const Home = () => {
               commentsCount={3}
               tags={obj.tags}
               // isLoading={true}
-              isEditable
+              isEditable={userData?._id===obj.user._id}
             />
           ))}
         </Grid>

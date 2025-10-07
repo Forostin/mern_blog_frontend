@@ -5,7 +5,7 @@ import { authReduser } from "./slices/auth";
 const store = configureStore({
     reducer: {
         posts : postsReducer,
-        auth : authReduser
+        auth : authReduser,
     }
 });
 
