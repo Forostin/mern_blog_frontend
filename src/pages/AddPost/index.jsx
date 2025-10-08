@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { selectIsAuth } from '../../react/slices/auth';
 import axios from '../../axios';
@@ -14,6 +14,7 @@ import 'easymde/dist/easymde.min.css';
 import styles from './AddPost.module.scss';
 
 export const AddPost = () => {
+  const { id } = useParams();
   const navigate = useNavigate(); 
   const isAuth = useSelector(selectIsAuth);
   const [text, setText] = React.useState('');
@@ -64,6 +65,9 @@ export const AddPost = () => {
     }
   }
 
+  React.useEffect(()=>{
+
+  },[])
   const options = React.useMemo(
     () => ({
       spellChecker: false,
