@@ -56,18 +56,32 @@ export const AddPost = () => {
         tags: tags.split(','),
         text
       };
-      const {data} = await axios.post('/posts', fields) ;
-      const id = data._id; 
-      navigate(`/posts/${id}`) 
+      const {data} = isEditing 
+                ? await axios.patch(`/posts/${id}`, fields)
+                : await axios.post('/posts', fields);
+
+      const _id = isEditing ? id : data._id; 
+      navigate(`/posts/${_id}`) 
     } catch (error) {
       console.warn(error);
       alert("Помилка при створенні статті");
     }
   }
-
+const isEditing = Boolean(id)
   React.useEffect(()=>{
-
-  },[])
+    if (id){
+      axios.get(`/posts/${id}`)
+           .then(({data})=>{
+                setImageUrl(data.imageUrl)
+                setTitle(data.title)
+                setText(data.text)
+                setTags(data.tags.join(','))
+           }) 
+           .catch((err)=>{
+            console.warn(err)
+           })
+    }
+  },[id])
   const options = React.useMemo(
     () => ({
       spellChecker: false,
@@ -130,7 +144,7 @@ export const AddPost = () => {
       <SimpleMDE className={styles.editor} value={text} onChange={onChange} options={options} />
       <div className={styles.buttons}>
         <Button onClick={onSubmit}  size="large" variant="contained">
-          Опублікувати
+          {isEditing ? 'Зберегти зміни' :'Опублікувати'}
         </Button>
         <a href="/">
           <Button size="large">Скасувати</Button>
