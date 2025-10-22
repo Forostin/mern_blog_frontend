@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import clsx from 'clsx';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Clear';
@@ -28,6 +28,7 @@ export const Post = ({
   isEditable,
 }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   if (isLoading) {
     return <PostSkeleton />;
@@ -36,6 +37,8 @@ export const Post = ({
   const onClickRemove = () => {
     if(window.confirm('Ви діїсно хочете видалити статтю ?')){
         dispatch(fetchDeletePost(id))
+        return navigate('/') 
+        // ?????????????????????????????
     }
   };
 

@@ -26,6 +26,7 @@ export const Home = () => {
          // axios.get('/posts')
       },[dispatch]);
       console.log(tags)
+
      
 
       // меняем формат даты на более читабельный:
@@ -61,12 +62,11 @@ export const Home = () => {
               //   fullName: 'Keff',
               // }}
               user={obj.user}
-              // createdAt={obj.createdAt}
               createdAt={formatDate(obj.createdAt)}   // ВАЖНО: вызываем функцию
               viewsCount={obj.viewsCount}
               commentsCount={3}
               tags={obj.tags}
-              isEditable={userData?._id===obj.user._id}
+              isEditable={userData?._id===obj.user._id} //проверяем по id авторизован пользователь или нет.
             />
           ))}
         </Grid>

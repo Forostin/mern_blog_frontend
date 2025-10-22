@@ -24,6 +24,7 @@ export const AddPost = () => {
   const [isLoading, setIsLoading] = React.useState('');
   const inputFileRef = React.useRef(null); 
 
+
   const handleChangeFile = async (event) => {
     try {
       const formData = new FormData();
