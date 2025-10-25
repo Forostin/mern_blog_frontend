@@ -8,7 +8,7 @@ import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
 import { CommentsBlock } from '../components/CommentsBlock';
 // import axios from '../axios'
-import { fetchPosts, fetchTags } from '../react/slices/posts';
+import { fetchPosts, fetchTags, sortTimePosts, sortPopularPosts } from '../react/slices/posts';
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -27,7 +27,13 @@ export const Home = () => {
       },[dispatch]);
       console.log(tags)
 
-     
+const clickSortTime = () => { 
+  dispatch(sortTimePosts()) 
+};
+
+const clickSortPopular = () => {
+  dispatch(sortPopularPosts())
+};
 
       // меняем формат даты на более читабельный:
       const formatDate = (isoString) => {
@@ -40,10 +46,10 @@ export const Home = () => {
       };
 
   return (
-    <><img ></img>
+    <>
       <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
-        <Tab label="Новые" />
-        <Tab label="Популярные" />
+          <Tab label="Новые" onClick={clickSortTime}/>
+          <Tab label="Популярные" onClick={clickSortPopular}/>
       </Tabs>
       <Grid container spacing={4}>
         <Grid xs={8} item>
@@ -77,7 +83,7 @@ export const Home = () => {
               {
                 user: {
                   fullName: 'Вася Пупкин',
-                  avatarUrl: 'https://mui.com/static/images/avatar/1.jpg',
+                  avatarUrl: "https://mui.com/static/images/avatar/1.jpg",
                 },
                 text: 'Это тестовый комментарий',
               },

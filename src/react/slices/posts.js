@@ -5,6 +5,16 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async()=>{
            const { data } = await axios.get('/posts');
            return data
 });
+// ------сортировка по дате:
+export const sortTimePosts = createAsyncThunk('posts/sortTimePosts', async()=>{
+       const { data } = await axios.get('/posts/sortTime');
+       return data
+})
+// ------сортировка по просмотрам:
+export const sortPopularPosts = createAsyncThunk('posts/sortPopularPosts', async () => {
+  const { data } = await axios.get('/posts/popular');
+  return data;
+});
 
 export const fetchTags = createAsyncThunk('posts/fetchTags', async()=>{
            const { data } = await axios.get('/tags');
@@ -67,7 +77,33 @@ const postsSlice = createSlice({
        [fetchDeletePost.rejected] : (state)=>{
                state.posts.items = [];
                state.posts.status = 'error';
-       }
+       },
+       // Сортировка постов по дате:
+        [sortTimePosts.pending] : (state)=>{
+               state.posts.items = [];
+               state.posts.status = 'loading';
+        } ,
+        [sortTimePosts.fulfilled] : (state, action)=>{
+               state.posts.items = action.payload;
+               state.posts.status = 'loaded';
+        } ,
+        [sortTimePosts.rejected] : (state)=>{
+               state.posts.items = [];
+               state.posts.status = 'error';
+        } ,
+       // Сортировка по просмотрам:
+        [sortPopularPosts.pending]: (state) => {
+               state.posts.items = [];
+               state.posts.status = 'loading';
+        },
+        [sortPopularPosts.fulfilled]: (state, action) => {
+               state.posts.items = action.payload;
+               state.posts.status = 'loaded';
+        },
+        [sortPopularPosts.rejected]: (state) => {
+               state.posts.items = [];
+               state.posts.status = 'error';
+        },
     }
 });
 
