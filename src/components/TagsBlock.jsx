@@ -1,39 +1,3 @@
-// import React from "react";
-// import List from "@mui/material/List";
-// import ListItem from "@mui/material/ListItem";
-// import ListItemText from "@mui/material/ListItemText";
-// import Skeleton from "@mui/material/Skeleton";
-// import Typography from "@mui/material/Typography";
-
-// export const TagsBlock = ({ items = [], isLoading = true }) => {
-//   return (
-//     <div>
-//       <Typography variant="h6" gutterBottom>
-//         Тэги
-//       </Typography>
-
-//       <List>
-//         {(isLoading ? [...Array(5)] : items).map((name, index) =>
-//           isLoading ? (
-//             <ListItem key={index}>
-//               <Skeleton width={80} />
-//             </ListItem>
-//           ) : (
-//             <ListItem key={name || index}>
-//               <ListItemText primary={name} />
-//                <a
-//                   style={{ textDecoration: "none", color: "black" }}
-//                   href={`/tags/${name}`}
-//                />
-//             </ListItem>
-//           )
-//         )}
-//       </List>
-//     </div>
-//   );
-// };
-
-
 import React from "react";
 
 import List from "@mui/material/List";
@@ -41,21 +5,34 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import TagIcon from "@mui/icons-material/Tag";
-import ListItemText from "@mui/material/ListItemText";
+// import ListItemText from "@mui/material/ListItemText";
 import Skeleton from "@mui/material/Skeleton";
 
 import { SideBlock } from "./SideBlock";
+import { useDispatch } from "react-redux";
+import { sortPostsTag , fetchPosts} from "../react/slices/posts";
+import { red, yellow } from "@mui/material/colors";
 
-export const TagsBlock = ({ items, isLoading = true }) => {
+
+export const TagsBlock = ({ isLoading = true }) => {
+
+      const [tag, setTag] = React.useState('');
+
+      const dispatch = useDispatch()
+
+      const clickSortTag = (tagName) => {
+               setTag(tagName); // сохраним выбранный тег (если нужно для визуала)
+               dispatch(sortPostsTag(tagName)); // передаем тег в thunk
+            };
+      const getAllPosts = (tagName)=>{
+               setTag(tagName);
+               dispatch(fetchPosts())
+            };
+
   return (
     <SideBlock title="Тэги">
       <List>
-        {(isLoading ? [...Array(5)] : items).map((name, index) => (
-          <a key={name||index}
-            style={{ textDecoration: "none", color: "black" }}
-            href={`/tags/${name}`}
-          >
-            <ListItem key={name||index} disablePadding>
+          <ListItem  disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <TagIcon />
@@ -63,13 +40,62 @@ export const TagsBlock = ({ items, isLoading = true }) => {
                 {isLoading ? (
                   <Skeleton width={100} />
                 ) : (
-                  <ListItemText primary={name}  />
+                  <ul>
+                     <li
+                        onClick={()=> getAllPosts('всі') }
+                        style={{
+                                textDecoration: "none",
+                                color: tag === 'всі' ? "blue" : "black",  //подсветка выбранного тега
+                                cursor: 'pointer',
+                               }}
+                     >
+                      всі
+                    </li>
+                    <li
+                        onClick={() => clickSortTag('картинки')}
+                        style={{
+                                textDecoration: "none",
+                                color: tag === 'картинки' ? "blue" : "black",  //подсветка выбранного тега
+                                cursor: 'pointer'
+                               }}
+                     >
+                      картинки
+                    </li>
+                    <li
+                        onClick={() => clickSortTag('анекдот')}
+                        style={{
+                                textDecoration: "none",
+                                color: tag === 'анекдот' ? "blue" : "black",  //подсветка выбранного тега
+                                cursor: 'pointer'
+                               }}
+                     >
+                      анекдот
+                    </li>
+                    <li
+                        onClick={() => clickSortTag('повідомлення')}
+                        style={{
+                                textDecoration: "none",
+                                color: tag === 'повідомлення' ? "blue" : "black",  //подсветка выбранного тега
+                                cursor: 'pointer'
+                               }}
+                     >
+                      повідомлення
+                    </li>
+                     <li
+                        onClick={() => clickSortTag('оповідання')}
+                        style={{
+                                textDecoration: "none",
+                                color: tag === 'оповідання' ? "blue" : "black",  //подсветка выбранного тега
+                                cursor: 'pointer'
+                               }}
+                     >
+                      оповідання
+                    </li>
+                  </ul>
                 )}
               </ListItemButton>
             </ListItem>
-          </a>
-        ))}
-      </List>
+        </List>
     </SideBlock>
   );
 };

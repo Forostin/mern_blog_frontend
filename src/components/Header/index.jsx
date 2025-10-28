@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import styles from './Header.module.scss';
 import Container from '@mui/material/Container';
 import { logout, selectIsAuth } from '../../react/slices/auth';
+import { fetchPosts } from '../../react/slices/posts';
 
 export const Header = () => {
   const isAuth = useSelector(selectIsAuth);
@@ -17,13 +18,15 @@ export const Header = () => {
                window.localStorage.removeItem('token');
         }  
   };
-
+  const onClickGetPosts = ()=>{
+    dispatch(fetchPosts())
+  }
   return (
     <div className={styles.root}>
       <Container maxWidth="lg">
         <div className={styles.inner}>
           <Link className={styles.logo} to="/">
-            <div>MY BLOG</div>
+            <div onClick={onClickGetPosts}>MY COMEDY BLOG</div>
           </Link>
           <div className={styles.buttons}>
             {isAuth ? (

@@ -16,6 +16,12 @@ export const sortPopularPosts = createAsyncThunk('posts/sortPopularPosts', async
   return data;
 });
 
+// ------ сортировка по тегу:
+export const sortPostsTag = createAsyncThunk('posts/sortPostsTag', async (tagName) => {
+  const { data } = await axios.get(`/posts/sortTag/${tagName}`);
+  return data;
+});
+
 export const fetchTags = createAsyncThunk('posts/fetchTags', async()=>{
            const { data } = await axios.get('/tags');
            return data 
@@ -101,6 +107,19 @@ const postsSlice = createSlice({
                state.posts.status = 'loaded';
         },
         [sortPopularPosts.rejected]: (state) => {
+               state.posts.items = [];
+               state.posts.status = 'error';
+        },
+       //  сортировка по тегу:
+        [sortPostsTag.pending]: (state) => {
+               state.posts.items = [];
+               state.posts.status = 'loading';
+        },
+        [sortPostsTag.fulfilled]: (state, action) => {
+               state.posts.items = action.payload;
+               state.posts.status = 'loaded';
+        },
+        [sortPostsTag.rejected]: (state) => {
                state.posts.items = [];
                state.posts.status = 'error';
         },

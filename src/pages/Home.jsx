@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid';
 
 import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
+import { Index } from "../components/AddComment";
 import { CommentsBlock } from '../components/CommentsBlock';
 // import axios from '../axios'
 import { fetchPosts, fetchTags, sortTimePosts, sortPopularPosts } from '../react/slices/posts';
@@ -14,6 +15,7 @@ export const Home = () => {
   const dispatch = useDispatch();
   const userData = useSelector((state)=>state.auth.data);
   const {posts, tags} = useSelector((state)=>state.posts); 
+  const [tag, setTag] = React.useState('');
 
   const isPostsLoading = posts.status === 'loading'
   const isTagsLoading = tags.status === 'loading'
@@ -27,11 +29,13 @@ export const Home = () => {
       },[dispatch]);
       console.log(tags)
 
-const clickSortTime = () => { 
+const clickSortTime = (tagName) => { 
+  setTag(tagName);
   dispatch(sortTimePosts()) 
 };
 
-const clickSortPopular = () => {
+const clickSortPopular = (tagName) => {
+  setTag(tagName);
   dispatch(sortPopularPosts())
 };
 
@@ -48,8 +52,12 @@ const clickSortPopular = () => {
   return (
     <>
       <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
-          <Tab label="Новые" onClick={clickSortTime}/>
-          <Tab label="Популярные" onClick={clickSortPopular}/>
+          <Tab label="Нові" onClick={()=>clickSortTime('Нові')}
+              style={ {color: tag === 'Нові' ? "blue" : "black"} }   //подсветка выбранного тега
+          />
+          <Tab label="Популярні" onClick={()=>clickSortPopular('Популярні')}
+              style={ {color: tag === 'Популярні' ? "blue" : "black"} }   //подсветка выбранного тега
+          />
       </Tabs>
       <Grid container spacing={4}>
         <Grid xs={8} item>
@@ -95,6 +103,7 @@ const clickSortPopular = () => {
                 text: 'When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top',
               },
             ]}
+            isLoading={false}
           />
         </Grid>
       </Grid>

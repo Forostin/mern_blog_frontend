@@ -9,9 +9,17 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import SimpleMDE from 'react-simplemde-editor';
+// ==========================
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+// ==============================
 
 import 'easymde/dist/easymde.min.css';
 import styles from './AddPost.module.scss';
+
 
 export const AddPost = () => {
   const { id } = useParams();
@@ -19,11 +27,21 @@ export const AddPost = () => {
   const isAuth = useSelector(selectIsAuth);
   const [text, setText] = React.useState('');
   const [title, setTitle] = React.useState('');
-  const [tags, setTags] = React.useState('');
+  // const [tags, setTags] = React.useState('');
   const [imageUrl, setImageUrl] = React.useState('');
   const [isLoading, setIsLoading] = React.useState('');
   const inputFileRef = React.useRef(null); 
 
+  // ====================================
+
+  let [tags, setTags] = React.useState('');
+
+
+  // const handleChange = (event: SelectChangeEvent) => {
+  //   setTags(event.target.value);
+  // };  
+
+// =======================================
 
   const handleChangeFile = async (event) => {
     try {
@@ -133,14 +151,38 @@ const isEditing = Boolean(id)
         onChange={(e)=>{setTitle(e.target.value)}}
         fullWidth
       />
-      <TextField 
+{/* =================================================Ввод произвольных тегов. */}
+      {/* <TextField 
         classes={{ root: styles.tags }} 
         variant="standard" 
         placeholder="Теги"
         value={tags}
         onChange={(e)=>setTags(e.target.value)}
         fullWidth 
-      />
+      /> */}
+{/* ==================================================Выбор тегов из меню: */}
+ <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+      <InputLabel id="demo-simple-select-label">Теги</InputLabel>
+       <Select
+         labelId="demo-simple-select-label"
+         id="demo-simple-select"
+         value={tags}
+         label="Теги"
+        //  onChange={handleChange}
+            onChange={(e)=>setTags(e.target.value)}
+       >
+         <MenuItem value={'картинки'}># картинки</MenuItem>
+         <MenuItem value={'анекдот'}># анекдот</MenuItem>
+         <MenuItem value={'повідомлення'}># повідомлення</MenuItem>
+         <MenuItem value={'оповідання'}># оповідання</MenuItem>
+       </Select>
+    </FormControl>
+  </Box>
+{/* ======================================================================= */}
+
+
+
       {/* Отображаем редактор текста SimpleMDE */}
       <SimpleMDE className={styles.editor} value={text} onChange={onChange} options={options} />
       <div className={styles.buttons}>
