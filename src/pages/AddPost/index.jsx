@@ -190,10 +190,10 @@ const isEditing = Boolean(id)
           {isEditing ? 'Зберегти зміни' :'Опублікувати'}
         </Button>
         <a href="/">
-          <Button size="large">Скасувати</Button>
+            <Button size="large">Скасувати</Button>
         </a>
       </div>
-      </>
+    </>
     )}
     </Paper>
   );

@@ -28,6 +28,9 @@ export const Header = () => {
           <Link className={styles.logo} to="/">
             <div onClick={onClickGetPosts}>MY COMEDY BLOG</div>
           </Link>
+          <div className={styles.box_smile}>
+             <img className={styles.smile} src="/smile.png" alt="smile" />
+          </div>
           <div className={styles.buttons}>
             {isAuth ? (
               <>

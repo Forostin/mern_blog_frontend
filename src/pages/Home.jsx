@@ -4,12 +4,14 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Grid from '@mui/material/Grid';
 
+import styles from './home.module.scss'
 import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
-import { Index } from "../components/AddComment";
+// import { Index } from "../components/AddComment";
 import { CommentsBlock } from '../components/CommentsBlock';
 // import axios from '../axios'
 import { fetchPosts, fetchTags, sortTimePosts, sortPopularPosts } from '../react/slices/posts';
+
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -51,13 +53,25 @@ const clickSortPopular = (tagName) => {
 
   return (
     <>
+       
       <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
+ { tag === 'Нові' ?  ( <div className={styles.box_smile}>
+                     <img className={styles.smile} src="/smile.png" alt="smile" />
+              </div>) : (<></>) }
+
           <Tab label="Нові" onClick={()=>clickSortTime('Нові')}
               style={ {color: tag === 'Нові' ? "blue" : "black"} }   //подсветка выбранного тега
           />
+
+              
+   
+   
           <Tab label="Популярні" onClick={()=>clickSortPopular('Популярні')}
               style={ {color: tag === 'Популярні' ? "blue" : "black"} }   //подсветка выбранного тега
           />
+              { tag === 'Популярні' ?  ( <div className={styles.box_smile}>
+                     <img className={styles.smile} src="/smile.png" alt="smile" />
+              </div>) : (<></>) }
       </Tabs>
       <Grid container spacing={4}>
         <Grid xs={8} item>
@@ -90,17 +104,17 @@ const clickSortPopular = (tagName) => {
             items={[
               {
                 user: {
-                  fullName: 'Вася Пупкин',
+                  fullName: 'Степан Степанов',
                   avatarUrl: "https://mui.com/static/images/avatar/1.jpg",
                 },
                 text: 'Это тестовый комментарий',
               },
               {
                 user: {
-                  fullName: 'Иван Иванов',
+                  fullName: 'Mark Tven',
                   avatarUrl: 'https://mui.com/static/images/avatar/2.jpg',
                 },
-                text: 'When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top',
+                text: 'This is a very good website. Thank you!',
               },
             ]}
             isLoading={false}
