@@ -7,9 +7,7 @@ import Grid from '@mui/material/Grid';
 import styles from './home.module.scss'
 import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
-// import { Index } from "../components/AddComment";
 import { CommentsBlock } from '../components/CommentsBlock';
-// import axios from '../axios'
 import { fetchPosts, fetchTags, sortTimePosts, sortPopularPosts } from '../react/slices/posts';
 
 
@@ -28,44 +26,42 @@ export const Home = () => {
         dispatch(fetchPosts())  
         dispatch(fetchTags())
          // axios.get('/posts')
-      },[dispatch]);
-      console.log(tags)
+      },[dispatch]
+  );
+      // console.log(tags)
 
-const clickSortTime = (tagName) => { 
-  setTag(tagName);
-  dispatch(sortTimePosts()) 
-};
+  const clickSortTime = (tagName) => { 
+        setTag(tagName);
+        dispatch(sortTimePosts()) 
+  };
 
-const clickSortPopular = (tagName) => {
-  setTag(tagName);
-  dispatch(sortPopularPosts())
-};
+  const clickSortPopular = (tagName) => {
+        setTag(tagName);
+        dispatch(sortPopularPosts())
+  };
 
       // меняем формат даты на более читабельный:
-      const formatDate = (isoString) => {
+  const formatDate = (isoString) => {
           if (!isoString) return ''; // защита на случай, если даты нет
           const date = new Date(isoString);
           const day = String(date.getDate()).padStart(2, '0');
           const month = String(date.getMonth() + 1).padStart(2, '0');
           const year = date.getFullYear();
           return `Дата: ${day}/${month}/${year}`;
-      };
+  };
 
   return (
     <>
-       
-      <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
- { tag === 'Нові' ?  ( <div className={styles.box_smile}>
-                     <img className={styles.smile} src="/smile.png" alt="smile" />
+       <h4>Якщо ви бажаєте додати пост або коментар, будь ласка, зареєструйтесь.</h4>
+       <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
+              { tag === 'Нові' ?  ( <div className={styles.box_smile}>
+                       <img className={styles.smile} src="/smile.png" alt="smile" />
               </div>) : (<></>) }
 
           <Tab label="Нові" onClick={()=>clickSortTime('Нові')}
               style={ {color: tag === 'Нові' ? "blue" : "black"} }   //подсветка выбранного тега
           />
 
-              
-   
-   
           <Tab label="Популярні" onClick={()=>clickSortPopular('Популярні')}
               style={ {color: tag === 'Популярні' ? "blue" : "black"} }   //подсветка выбранного тега
           />
@@ -73,6 +69,7 @@ const clickSortPopular = (tagName) => {
                      <img className={styles.smile} src="/smile.png" alt="smile" />
               </div>) : (<></>) }
       </Tabs>
+
       <Grid container spacing={4}>
         <Grid xs={8} item>
           {( isPostsLoading ? [...Array(5)] : posts.items ).map((obj, index) => 
@@ -107,7 +104,7 @@ const clickSortPopular = (tagName) => {
                   fullName: 'Степан Степанов',
                   avatarUrl: "https://mui.com/static/images/avatar/1.jpg",
                 },
-                text: 'Это тестовый комментарий',
+                text: 'Це тестовий коментар, його не можна видалити.',
               },
               {
                 user: {

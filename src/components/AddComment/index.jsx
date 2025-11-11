@@ -14,7 +14,7 @@ export const Index = ({ postId, setComments }) => {
   const addComment = async () => {
     try {
       if (!comment.trim()) {
-        alert("Комментарий пустой");
+        alert("Комментар пустий");
         return;
       }
 
@@ -26,7 +26,7 @@ export const Index = ({ postId, setComments }) => {
       setComment("");
     } catch (err) {
       console.warn(err);
-      alert("Ошибка при добавлении комментария");
+      alert("Помилка при додаванні коментаря потрібно зареєструватися");
     }
   };
 
@@ -35,7 +35,7 @@ export const Index = ({ postId, setComments }) => {
       <Avatar classes={{ root: styles.avatar }} src="https://mui.com/static/images/avatar/5.jpg" />
       <div className={styles.form}>
         <TextField
-          label="Написати коментарій"
+          label="Написати коментар"
           variant="outlined"
           maxRows={10}
           multiline

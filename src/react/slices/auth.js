@@ -30,43 +30,84 @@ const authSlice = createSlice({
               state.data = null;
           }
     },
-    extraReducers:{
-            [fetchAuth.pending] : (state)=>{
+    extraReducers: ( builder )=>{
+       builder
+           .addCase(fetchAuth.pending, (state)=>{
+              state.status = 'loading';
+              state.data = null;
+           })
+           .addCase(fetchAuth.fulfilled, (state, action)=>{
+               state.data = action.payload;
+               state.status = 'loaded';
+           })
+           .addCase(fetchAuth.rejected, (state)=>{
+                state.status = 'error';
+                state.data = null;
+           })
+       builder
+            .addCase(fetchAuthMe.pending, (state)=>{
                    state.status = 'loading';
                    state.data = null;
-            } ,
-            [fetchAuth.fulfilled] : (state, action)=>{
+            })
+            .addCase(fetchAuthMe.fulfilled, (state, action)=>{
                    state.data = action.payload;
                    state.status = 'loaded';
-            } ,
-            [fetchAuth.rejected] : (state)=>{
+            })
+            .addCase(fetchAuthMe.rejected, (state)=>{
                    state.status = 'error';
                    state.data = null;
-            },
-             [fetchAuthMe.pending] : (state)=>{
+            })
+
+       builder 
+            .addCase(fetchRegister.pending, (state)=>{
                    state.status = 'loading';
                    state.data = null;
-            } ,
-            [fetchAuthMe.fulfilled] : (state, action)=>{
+            })     
+            .addCase(fetchRegister.fulfilled, (state, action)=>{
                    state.data = action.payload;
                    state.status = 'loaded';
-            } ,
-            [fetchAuthMe.rejected] : (state)=>{
+            })
+            .addCase(fetchRegister.rejected, (state)=>{
                    state.status = 'error';
                    state.data = null;
-            },
-             [fetchRegister.pending] : (state)=>{
-                   state.status = 'loading';
-                   state.data = null;
-            } ,
-            [fetchRegister.fulfilled] : (state, action)=>{
-                   state.data = action.payload;
-                   state.status = 'loaded';
-            } ,
-            [fetchRegister.rejected] : (state)=>{
-                   state.status = 'error';
-                   state.data = null;
-            }
+            })
+            
+       //      [fetchAuth.pending] : (state)=>{
+       //             state.status = 'loading';
+       //             state.data = null;
+       //      } ,
+       //      [fetchAuth.fulfilled] : (state, action)=>{
+       //             state.data = action.payload;
+       //             state.status = 'loaded';
+       //      } ,
+       //      [fetchAuth.rejected] : (state)=>{
+       //             state.status = 'error';
+       //             state.data = null;
+       //      },
+       //       [fetchAuthMe.pending] : (state)=>{
+       //             state.status = 'loading';
+       //             state.data = null;
+       //      } ,
+       //      [fetchAuthMe.fulfilled] : (state, action)=>{
+       //             state.data = action.payload;
+       //             state.status = 'loaded';
+       //      } ,
+       //      [fetchAuthMe.rejected] : (state)=>{
+       //             state.status = 'error';
+       //             state.data = null;
+       //      },
+       //       [fetchRegister.pending] : (state)=>{
+       //             state.status = 'loading';
+       //             state.data = null;
+       //      } ,
+       //      [fetchRegister.fulfilled] : (state, action)=>{
+       //             state.data = action.payload;
+       //             state.status = 'loaded';
+       //      } ,
+       //      [fetchRegister.rejected] : (state)=>{
+       //             state.status = 'error';
+       //             state.data = null;
+       //      }
     }
 });
 

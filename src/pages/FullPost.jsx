@@ -10,15 +10,24 @@ import { CommentsBlock } from "../components/CommentsBlock";
 export const FullPost = () => {
   const { id } = useParams();
 
-  const userData = useSelector((state) => state.auth.data);;//получаем данные авторизации чтобы сравнить id пользователя и дать доступ к редактированию
+  const userData = useSelector((state) => state.auth.data);//получаем данные авторизации чтобы сравнить id пользователя и дать доступ к редактированию
 
   const [data, setData] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const [comments, setComments] = React.useState([]);
 
-  // const handleNewComment = (newComment) => {
-  //     setComments(prev => [...prev, newComment]);
-  // };
+ 
+  const handleDeleteComment = async (commentId) => {
+  if (!window.confirm("Видалити коментар?")) return;
+
+  try {
+    await axios.delete(`/comments/${commentId}`);
+    setComments(prev => prev.filter(c => c._id !== commentId));
+  } catch (err) {
+    console.warn(err);
+    alert("Не вдалося видалити коментарий");
+  }
+};
 
   React.useEffect(() => {
       axios.get(`/posts/${id}/comments`).then((res) => {
@@ -28,7 +37,6 @@ export const FullPost = () => {
 
   React.useEffect(() => {
     setIsLoading(true);
-
     axios
       .get(`/posts/${id}`)
       .then((res) => {
@@ -37,9 +45,9 @@ export const FullPost = () => {
       })
       .catch((err) => {
         console.warn(err);
-        alert("Ошибка при получении статьи 😢");
+        alert("Помилка при отриманні статті 😢");
       });
-  }, [id]); // ✅ только id
+  }, [id]); //  только id
 
   if (isLoading) {
     return <Post isLoading={true} isFullPost />;
@@ -101,11 +109,15 @@ export const FullPost = () => {
             ]}
             isLoading={false}
           /> */}
-     <CommentsBlock items={comments} isLoading={false}>
-                   <Index postId={id} setComments={setComments} />
-               {/* <Index postId={id} onAddComment={handleNewComment} /> */}
-
+     <CommentsBlock
+            items={comments}
+            isLoading={false}
+            onDeleteComment={handleDeleteComment}
+            currentUserId={userData?._id}
+      >
+            <Index postId={id} setComments={setComments} />
      </CommentsBlock>
+
     </>
   );
 };
